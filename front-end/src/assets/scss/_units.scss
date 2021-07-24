@@ -1,0 +1,24 @@
+// font-weight
+$font-weight-thin: 100 !default;
+$font-weight-extra-light: 200 !default;
+$font-weight-light: 300 !default;
+$font-weight-normal: 400 !default;
+$font-weight-medium: 500 !default;
+$font-weight-semi-bold: 600 !default;
+$font-weight-bold: 700 !default;
+$font-weight-extra-bold: 800 !default;
+$font-weight-black: 900 !default;
+$font-weight-extra-black: 950 !default;
+
+//font-size
+$font-size-sm-2: px(12) !default;
+$font-size-sm-1: px(14) !default;
+$font-size: px(16) !default;
+$font-size-lg-1: px(18) !default;
+$font-size-lg-2: px(20) !default;
+$font-size-lg-3: px(24) !default;
+$font-size-lg-4: px(30) !default;
+$font-size-lg-5: px(36) !default;
+$font-size-lg-6: px(48) !default;
+$font-size-lg-7: px(60) !default;
+$font-size-lg-8: px(72) !default;
