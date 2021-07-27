@@ -1,5 +1,5 @@
 <template>
-    <v-cart class="cart-item"  @click="
+    <div class="cart-item"  @click="
                     $router.push(
                       {
                         path: '/products/detail',
@@ -25,7 +25,7 @@
             {{product.Subtitle}}
         </v-col>
         </v-row>
-    </v-cart>
+    </div>
 </template>
 <script>
     export default{

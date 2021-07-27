@@ -1,4 +1,5 @@
 import {AuthService} from '@/services';
+import {ProductService} from "@/services";
 
 
 export default {
@@ -6,6 +7,7 @@ export default {
     state: {
         authUser: null,
         accessToken: null,
+        cart: [],
     },
     getters: {
         authUser(state) {
@@ -14,6 +16,9 @@ export default {
         isAuthenticated(state) {
             return Boolean(state.authUser);
         },
+        getCart(state){
+            return state.cart;
+        }
     },
     mutations: {
         SET_TOKEN(state, token) {
@@ -25,6 +30,9 @@ export default {
         LOGIN(state, {user = true, access_token}) {
             state.authUser = user;
             state.accessToken = access_token;
+        },
+        SAVE_CART(state, data) {
+            state.cart = data
         },
     },
     actions: {
@@ -39,7 +47,6 @@ export default {
         },
         async loginForm(context, credentials) {
             const {data} = await AuthService.loginForm(credentials)
-            console.log(data);
             await context.dispatch('actionLogin', data)
         },
         async actionLogin(context, data) {
@@ -55,12 +62,34 @@ export default {
                 const {data} = await AuthService.getAuthUser(credentials);
                 if (data) {
                     localStorage.setItem('userInfo', JSON.stringify(data));
-                    context.commit('SAVE_AUTH_USER', JSON.stringify(data));
+                    context.commit('SAVE_AUTH_USER', data);
+                    await context.dispatch('getCart',data.ID)
                 }
                 return data;
             }
         },
-
+        async getCart(context, credentials){
+            const {data} = await ProductService.getCart(credentials);
+            if(data){
+                console.log(data)
+               context.commit('SAVE_CART',data);
+            }
+            return data;
+        },
+        async addToCart(context, credentials) {
+            const {data} = await ProductService.postCart(credentials)
+            if(data){
+                await context.dispatch('getCart',credentials.user_id)
+            }
+            return data;
+        },
+        async removeCart(context, credentials){
+            const {data} = await ProductService.deleteCart(credentials.id)
+            if(data){
+                await context.dispatch('getCart',credentials.user)
+            }
+            return data;
+        },
         logout(context) {
             // return AuthService.logout().then(() => {
                 context.dispatch('ACTION_LOGOUT')

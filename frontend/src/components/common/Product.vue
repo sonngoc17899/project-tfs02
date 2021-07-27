@@ -11,7 +11,7 @@
            $ {{product.price_cover}}
         </v-col>
                <v-col cols="12" class="fix sub-title-product">
-            {{product.Subtitle}}
+            {{product.subtitle}}
         </v-col>
         </v-row>
     </v-col>

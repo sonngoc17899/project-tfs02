@@ -1,5 +1,16 @@
 <template>
-    <v-col cols="12" lg="4" md="4" sm="6" xs="12">
+    <v-col cols="12" lg="4" md="4" sm="6" xs="12" @click="
+                    $router.push(
+                      {
+                        path: '/products/detail',
+                        query: {
+                          name: product.name,
+                          id: product.ID,
+                        },
+                      },
+                      () => {}
+                    )
+                  ">
         <v-row class="product">
         <v-col cols="12">
         <img :src="product.image_cover" :alt="product.name"/>
@@ -8,10 +19,10 @@
             {{product.name}}
         </v-col>
         <v-col cols="12" class="fix sub-title-product">
-           {{product.Subtitle}}
+           {{product.subtitle}}
         </v-col>
          <v-col cols="12" class="fix sub-title-product">
-           {{product.Colors}} Colors
+           {{product.colors}} Colors
         </v-col>
         <v-col cols="12" class="fix title-product">
             $ {{product.price_cover}}
@@ -40,6 +51,9 @@
     img{
         width: 100%!important;
     }
+}
+.product:hover{
+    cursor: pointer;
 }
 .title-product{
     color: #171717;

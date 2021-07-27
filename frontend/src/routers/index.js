@@ -47,6 +47,22 @@ const routes = [
     component: () => import("../views/product/ProductDetail.vue"),
     
   },
+  {
+    path: "/user/cart",
+    name: "cart",
+    component: () => import("../views/cart/Cart.vue"),
+    meta: {
+      title: "Cart",
+    },
+  },
+  {
+    path: "/paypal",
+    name: "paypal",
+    component: () => import("../views/cart/PayPal.vue"),
+    meta: {
+      title: "PayPal",
+    },
+  },
 ];
 
 const router = new VueRouter({

@@ -9,8 +9,9 @@ type Order struct {
 	UserID       uint        `gorm:"" json:"user_id"`
 	ProductName  string      `gorm:"" json:"product_name"`
 	ProductPrice string      `gorm:"" json:"product_price"`
-	ProductId    string      `gorm:"" json:"product_id"`
+	ProductId    uint        `gorm:"" json:"product_id"`
 	Quantity     uint        `gorm:"" json:"quantity"`
+	Size         string      `gorm:"" josn:"size"`
 	StatusID     uint        `gorm:"not null;default:0" json:"status_id"`
 	TotalPrice   string      `gorm:"" json:"total_price"`
 	OrderLine    []OrderLine `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;foreignKey:OrderID;" json:"order_line"`
@@ -71,8 +72,8 @@ func (o *Order) UpdateAOrder(db *gorm.DB) (*Order, error) {
 	return o, nil
 }
 
-func (o *Order) DeleteAOrder(db *gorm.DB, pid uint, uid uint) (int64, error) {
+func (o *Order) DeleteAOrder(db *gorm.DB, pid uint) (int64, error) {
 
-	db = db.Debug().Model(&Order{}).Where("id = ?", pid, uid).Take(&Order{}).Delete(&Order{})
+	db = db.Debug().Model(&Order{}).Where("id = ?", pid).Take(&Order{}).Delete(&Order{})
 	return db.RowsAffected, nil
 }

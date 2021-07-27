@@ -64,7 +64,7 @@
                       {
                         path: '/products/detail',
                         query: {
-                          name: 'Nike Air Max Viva<',
+                          name: 'Nike Air Max Viva',
                           id: 3,
                         },
                       },
@@ -105,7 +105,7 @@
                         path: '/products/detail',
                         query: {
                           name: 'Jordan MA2',
-                          id: 7,
+                          id: 2,
                         },
                       },
                       () => {}
@@ -122,7 +122,7 @@
                               path: '/products/detail',
                               query: {
                                 name: 'Jordan MA2',
-                                id: 7,
+                                id: 2,
                               },
                             },
                             () => {}
@@ -274,9 +274,8 @@ export default {
   },
   methods: {
     async getProduct() {
-      const res = await axios.get("/products");
+      const res = await axios.get("/products/hot");
       if (res) {
-        console.log(res.data);
         this.products = res.data;
       }
     },

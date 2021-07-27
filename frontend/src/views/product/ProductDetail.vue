@@ -27,7 +27,7 @@
       </v-col>
       <v-col cols="3" lg="4" xl="4" sm="12" xs="12">
         <div class="subtitle">
-          {{ product.Subtitle }}
+          {{ product.subtitle }}
         </div>
         <div class="subtitle">${{ product.price_cover }}</div>
         <div class="title">
@@ -80,7 +80,7 @@
           <v-sheet class="mx-auto" width="100%">
             <v-slide-group multiple show-arrows>
               <v-slide-item v-for="(item) in products" :key="item.id">
-                <CartItem :product="item" />
+                <CartItem :product="item" :key="item.id"/>
               </v-slide-item>
             </v-slide-group>
           </v-sheet>
@@ -90,8 +90,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters  } from "vuex";
 import CartItem from "@/components/common/CartItem";
 import axios from "@/utils/axios";
 export default {
@@ -121,35 +120,48 @@ export default {
         "EU 46",
       ],
       sizeValue: "",
+      quantity: 0
     };
   },
   methods: {
-        ...mapGetters({
-      authUser: "auth/authUser",
-    }),
        ...mapActions({
-      addCart: "cart/addToCart",
+      addCart: "auth/addToCart",
     }),
+ 
     setValue(value) {
       this.sizeValue = value;
-      console.log(this.authUser);
+      console.log(value);
     },
     addToCart(){
-        // const user = localStorage.getItem('userInfo')
-        let data =  {    
-        // user_id: this.user.ID,
+        //  this.$store.dispatch("cart/addToCart", data).then(() => {
+        //  })
+        if(this.sizeValue == ""){
+          alert("Please choose size!")
+             
+        }else if(!this.authUser){
+          alert("You need to login!")
+        }else{
+              let data =  {    
+        user_id: this.authUser.ID,
         product_id: this.product.ID,
         product_name: this.product.name,
         product_price: this.product.price_cover,
+        size: this.sizeValue,
         quantity: 1,
         total_price: this.product.price_cover
-    }
-    console.log(data)
-        //  this.$store.dispatch("cart/addToCart", data).then(() => {
-        //  })
+        }
+        console.log(data)
+          this.addCart(data).then(()=>{
+            console.log("done")
+            alert("Successfully!")
+        }).catch((err)=>{
+          console.log(err)
+        })
+        }
+     
     },
       async getProduct() {
-      const res = await axios.get("/products");
+      const res = await axios.get("/products/hot");
       if (res) {
         console.log(res.data);
         this.products = res.data;
@@ -166,6 +178,9 @@ export default {
   components:{
       CartItem
   },
+  computed: {
+         ...mapGetters({authUser: "auth/authUser"}),
+  },
   created() {
     window.document.title = this.$route.query.name;
     this.getProduct();
@@ -180,6 +195,9 @@ export default {
       padding-right: 5%;
       padding-left: 5%;
   }
+}
+.mid-point{
+  margin-top: 1rem;
 }
 .img-sneaker{
     img{

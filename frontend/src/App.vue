@@ -28,16 +28,14 @@ export default {
       console.log("this.route", this.$route.name);
       return this.$route.name;
     },
-    ...mapGetters({
-      authUser: "auth/authUser",
-    }),
+   ...mapGetters({authUser: "auth/authUser"}),
   },
   mounted() {
     // Clear the browser cache data in localStorage when closing the browser window
-    window.onbeforeunload = function (e) {
-      var storage = window.localStorage;
-      storage.clear();
-    };
+    // window.onbeforeunload = function (e) {
+    //   var storage = window.localStorage;
+    //   storage.clear();
+    // };
   },
   methods: {
     ...mapActions({

@@ -2,7 +2,7 @@
   <div id="app">
     <div class="row-nav-top">
       <div  class="nav-top" v-show="authUser">
-      <div @click="$router.push({ name: 'cart' })">My Cart</div>
+      <div @click="$router.push({ name: 'cart' })">My Cart ({{cart.length}})</div>
       <div>|</div>
       <div @click="logout">Logout</div>
       </div>
@@ -153,9 +153,9 @@
                             <div @click="$router.push({
                               path: '/search/products',
                                    query: {
-                                key: 'Blazer'
+                                key: 'Air Max'
                               }
-                            });dialog.value = false">Blazer</div>
+                            });dialog.value = false">Air Max</div>
                       </div>
                     </v-col>                  
                   </v-row>
@@ -205,9 +205,8 @@ export default {
     //      const userInfo = localStorage.getItem('userInfo');
     //      return userInfo;
     // },
-    ...mapGetters({
-      authUser: "auth/authUser",
-    }),
+     ...mapGetters({authUser: "auth/authUser"}),
+    ...mapGetters({cart: "auth/getCart"}),
     id() {
       return this.$route.params.id;
     },
@@ -217,6 +216,9 @@ export default {
     mini() {
       return this.toggleMini;
     },
+  },
+  created() {
+    console.log(this.cart)
   },
 };
 </script>

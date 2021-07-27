@@ -58,6 +58,17 @@ func (server *Server) GetProducts(w http.ResponseWriter, r *http.Request) {
 	utils.JSON(w, http.StatusOK, products)
 }
 
+func (server *Server) GetTopPick(w http.ResponseWriter, r *http.Request) {
+	product := models.Product{}
+
+	products, err := product.FindTopPickProducts(server.DB)
+	if err != nil {
+		utils.ERROR(w, http.StatusInternalServerError, err)
+		return
+	}
+	utils.JSON(w, http.StatusOK, products)
+}
+
 func (server *Server) GetProduct(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	uid, err := strconv.ParseUint(vars["id"], 10, 64)

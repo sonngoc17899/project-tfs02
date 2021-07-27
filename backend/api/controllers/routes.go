@@ -32,7 +32,7 @@ func (s *Server) initializeRoutes() {
 	s.Router.HandleFunc("/api/orders/{id}", middlewares.SetMiddlewareJSON((s.GetOrdersByUserID))).Methods("GET")
 	//tat ca orderlines trong 1 order
 	s.Router.HandleFunc("/api/orders/{id}/order-lines", middlewares.SetMiddlewareJSON((s.GetOrderLinesByOrderID))).Methods("GET")
-
+	s.Router.HandleFunc("/api/orders/{id}", middlewares.SetMiddlewareJSON((s.DeleteOrdersByUserID))).Methods("DELETE")
 	//Posts routes
 	s.Router.HandleFunc("/api/posts", middlewares.SetMiddlewareJSON(s.CreatePost)).Methods("POST")
 	s.Router.HandleFunc("/api/posts", middlewares.SetMiddlewareJSON(s.GetPosts)).Methods("GET")
@@ -45,6 +45,8 @@ func (s *Server) initializeRoutes() {
 	s.Router.HandleFunc("/api/products", middlewares.SetMiddlewareJSON(s.CreateProduct)).Methods("POST")
 	//lay tat ca product
 	s.Router.HandleFunc("/api/products", middlewares.SetMiddlewareJSON(s.GetProducts)).Methods("GET")
+	//lay top pick product
+	s.Router.HandleFunc("/api/products/hot", middlewares.SetMiddlewareJSON(s.GetTopPick)).Methods("GET")
 	//lay product theo ID
 	s.Router.HandleFunc("/api/products/{id}", middlewares.SetMiddlewareJSON(s.GetProduct)).Methods("GET")
 	//update product theo ID

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -79,4 +80,26 @@ func (server *Server) GetOrderLinesByOrderID(w http.ResponseWriter, r *http.Requ
 		return
 	}
 	utils.JSON(w, http.StatusOK, ordertGotten)
+}
+
+func (server *Server) DeleteOrdersByUserID(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	uid, err := strconv.ParseUint(vars["id"], 10, 64)
+	if err != nil {
+		utils.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+	order := models.Order{}
+	err = server.DB.Debug().Model(models.Order{}).Where("id = ?", uid).Take(&order).Error
+	if err != nil {
+		utils.ERROR(w, http.StatusNotFound, errors.New("Unauthorized"))
+		return
+	}
+	_, err = order.DeleteAOrder(server.DB, uint(uid))
+	if err != nil {
+		utils.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+	w.Header().Set("Entity", fmt.Sprintf("%d", uid))
+	utils.JSON(w, http.StatusOK, "200 ok")
 }

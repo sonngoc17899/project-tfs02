@@ -121,6 +121,9 @@ export default {
     ...mapActions({
       loginForm: "auth/loginForm",
     }),
+    //     ...mapActions({
+    //   getCart: "cart/getCart",
+    // }),
     submit() {
       // this.$refs.form.validate();
       let data = {

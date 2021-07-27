@@ -14,10 +14,10 @@ type Product struct {
 	Name          string          `gorm:"size:255;not null;unique" json:"name"`
 	ImageCover    string          `gorm:"size:255;not null;" json:"image_cover"`
 	PriceCover    string          `gorm:"size:255;not null;" json:"price_cover"`
-	Subtitle      string          `gorm:"size:255"`
+	Subtitle      string          `gorm:"" json:"subtitle"`
 	Desc          string          `gorm:"size:255;type:text;not null;" json:"description"`
-	Colors        string          `gorm:"size:255"`
-	Brand         string          `gorm:"size:255"`
+	Colors        string          `gorm:"" json:"colors"`
+	Brand         string          `gorm:"" json:"nike"`
 	Variant       []Variant       `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;foreignKey:ProductID;" json:"variant"`
 	ProductOption []ProductOption `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;foreignKey:ProductID;" json:"product_option"`
 }
@@ -62,6 +62,16 @@ func (p *Product) FindAllProducts(db *gorm.DB) (*[]Product, error) {
 	var err error
 	products := []Product{}
 	err = db.Debug().Model(&Product{}).Limit(100).Find(&products).Error
+	if err != nil {
+		return &[]Product{}, err
+	}
+	return &products, nil
+}
+
+func (p *Product) FindTopPickProducts(db *gorm.DB) (*[]Product, error) {
+	var err error
+	products := []Product{}
+	err = db.Debug().Model(&Product{}).Limit(10).Find(&products).Error
 	if err != nil {
 		return &[]Product{}, err
 	}
